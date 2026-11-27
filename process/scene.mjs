@@ -9,7 +9,7 @@ const layouts={
 };
 const poses={
   overview:[.32,.66],source:[.32,.44],checks:[.27,.40],pack:[.18,.31],
-  retail:[.24,.41],rear:[.25,.54],dry:[.30,.39]
+  retail:[.24,.41],rear:[.18,.73],dry:[.30,.39]
 };
 const ease=t=>t*t*(3-2*t);
 const clamp=T.MathUtils.clamp;
@@ -44,6 +44,7 @@ function contactMap(){
   return new T.MeshBasicMaterial({map,transparent:true,depthWrite:false});
 }
 export async function mount(view,{choose=()=>{},project=()=>{},lost=()=>{}}={}) {
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const canvas=document.createElement('canvas');
   const options={antialias:true,alpha:false,powerPreference:'low-power'};
   const context=canvas.getContext('webgl2',options);
@@ -100,7 +101,12 @@ export async function mount(view,{choose=()=>{},project=()=>{},lost=()=>{}}={}) 
     let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
     for(const k of targets){
       const [x,z]=layout[k];
-      for(const dx of [-2.45,2.45])for(const dz of [-1.91,1.91])for(const y of [-.26,2.57]){
+      // In the rearing close-up, fit the tray to the viewport. The overview still fits the full rack.
+      const tray = id === 'rear';
+      const extentX = tray ? [-1.44, 1.60] : [-2.45, 2.45];
+      const extentZ = tray ? [-.02, 1.55] : [-1.91, 1.91];
+      const extentY = tray ? [.43, 1.32] : [-.26, 2.57];
+      for(const dx of extentX)for(const dz of extentZ)for(const y of extentY){
         const offset=new T.Vector3(x+dx,y,z+dz).sub(center);
         const px=right.dot(offset),py=up.dot(offset);
         minX=Math.min(minX,px);maxX=Math.max(maxX,px);minY=Math.min(minY,py);maxY=Math.max(maxY,py);
@@ -145,10 +151,10 @@ export async function mount(view,{choose=()=>{},project=()=>{},lost=()=>{}}={}) 
     raf=0;if(!visible||dead)return;
     if(!travel&&last&&stamp-last<32){schedule();return;}
     const movingCamera=Boolean(travel);
-    const dt=last?Math.min(.075,(stamp-last)/1000):0;last=stamp;
+    const dt=last?(stamp-last)/1000:0;last=stamp;
     if(playing)elapsed+=dt;
     if(travel){
-      travel.t+=dt;const progress=Math.min(1,travel.t/travel.duration),v=ease(progress);
+      travel.t=reducedMotion.matches?travel.duration:travel.t+dt;const progress=Math.min(1,travel.t/travel.duration),v=ease(progress);
       yaw=mix(travel.yaw,travel.to.yaw,v);pitch=mix(travel.pitch,travel.to.pitch,v);
       span=mix(travel.span,travel.to.span,v);aim.lerpVectors(travel.aim,travel.to.aim,v);
       setVisibility(progress);if(progress===1)travel=null;
@@ -163,7 +169,7 @@ export async function mount(view,{choose=()=>{},project=()=>{},lost=()=>{}}={}) 
   }
   function select(nextMode,id,instant=false){
     const modeChanged=mode!==nextMode;needsPins=true;mode=nextMode;selected=id;zoom=1;applyLayout();
-    if(!initialized||instant||!playing||!visible||modeChanged){initialized=true;settle();}
+    if(!initialized||instant||!playing||reducedMotion.matches||!visible||modeChanged){initialized=true;settle();}
     else{
       const dest=pose();
       dest.yaw=yaw+Math.atan2(Math.sin(dest.yaw-yaw),Math.cos(dest.yaw-yaw));

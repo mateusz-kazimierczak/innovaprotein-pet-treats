@@ -1,6 +1,7 @@
 import * as T from './vendor/three-r170.mjs';
 import { group, mesh, box, cyl, oval, bar, mat, decal, sign, graphics, carton, pallet, shelf, plant, plinth, batch } from './model-kit.mjs';
 import { pouch } from './pouch.mjs';
+import { addLarvae } from './larvae.mjs';
 
 function sack(p,x,y,z,scale=1) {
   const g=group(p,x,y,z);g.scale.setScalar(scale);
@@ -214,29 +215,7 @@ function rearing(p,animated) {
   tote(tray,0,.5,0,2.72,1.18,.25);
   box(tray,'earth',0,.76,0,2.57,.028,1.04,.012);
   grains(tray,0,.78,0,2.47,.97,47);
-  // Short, tapered, ringed larvae remain confined to this future-only tray.
-  const parts=[],dummy=new T.Object3D(),segments=12,bodies=9;
-  const inst=new T.InstancedMesh(new T.SphereGeometry(1,12,8),mat('ivory'),segments*bodies);
-  inst.castShadow=true;inst.receiveShadow=true;animated.add(inst);
-  for(let n=0;n<bodies;n++){
-    const x=-.88+(n%3)*.88,z=.43+Math.floor(n/3)*.31;
-    const a=.2+Math.sin(n*2.7)*.65;
-    parts.push({x,z,a});
-    for(let k=0;k<segments;k++)inst.setColorAt(n*segments+k,new T.Color(k===0||k===11?'#ab8053':k%3===0?'#d5b47b':'#ecd39f'));
-  }
-  return time=>{
-    parts.forEach(({x,z,a},n)=>{
-      const phase=time*1.8+n*2.2;
-      for(let i=0;i<segments;i++){
-        const u=i/(segments-1),length=(u-.5)*(.38+.018*Math.sin(phase));
-        const curve=Math.sin(u*3.3+phase)*.035;
-        const r=.024+.032*Math.sin(Math.PI*u)**.66;
-        dummy.position.set(x+length*Math.cos(a)-curve*Math.sin(a)+.038*Math.sin(phase*.46),.907+r*.42,z+length*Math.sin(a)+curve*Math.cos(a));
-        dummy.rotation.set(0,-a,0);dummy.scale.set(.034,r*.76,r);dummy.updateMatrix();
-        inst.setMatrixAt(n*segments+i,dummy.matrix);
-      }
-    });inst.instanceMatrix.needsUpdate=true;
-  };
+  return addLarvae(animated);
 }
 function drying(p,animated) {
   const cabinet=group(p,-.69,.08,-.28);

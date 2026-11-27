@@ -27,6 +27,6 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Open the local URL printed by Jekyll and use `#proceso` for the walkthrough. To produce the static files, run `bundle exec jekyll build`. Jekyll writes them to the ignored `_site/` directory. After building, run `node --test tests/site.test.mjs` with Node 22 or newer to check translation coverage, anchors, assets, and the static fallback. GitHub Pages runs its existing Jekyll build when a change reaches `main`.
+Open the local URL printed by Jekyll and use `#proceso` for the walkthrough. To produce the static files, run `bundle exec jekyll build`. Jekyll writes them to the ignored `_site/` directory. After building, run `node --test tests/*.test.mjs` with Node 22 or newer to check translation coverage, anchors, assets, the static fallback, and the larval crawl animation. GitHub Pages runs its existing Jekyll build when a change reaches `main`.
 
 The section includes and locale data let maintainers edit one source for each concern. The renderer loads on approach to the walkthrough. [Jekyll includes](https://jekyllrb.com/docs/includes/) · [Jekyll data files](https://jekyllrb.com/docs/datafiles/) · [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)

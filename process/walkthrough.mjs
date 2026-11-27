@@ -15,7 +15,8 @@ const icons={
 };
 function icon(key){return '<svg class="flow-icon" viewBox="0 0 24 24" aria-hidden="true">'+icons[key]+'</svg>';}
 let mode='launch',id=null,angle=0,zoom=1,model,started=false,onScreen=false,pinData,projected=[];
-let playing=!motionPref.matches, fallback=false, filmKey='', filmFailed=false;
+let playing=true, fallback=false, filmKey='', playAttempt=0;
+const failedClips=new Set();
 let transitionLayer;
 const copy=()=>language[document.documentElement.lang]||language.en;
 const route=()=>routes[mode];
@@ -40,21 +41,44 @@ function placePins(points){
     if(pin.style.top!==top)pin.style.top=top;
   }
 }
-function updateFilm(){
-  const key=viewKey();
-  const eligible=fallback&&key!=='source'&&angle===0&&!filmFailed;
-  const show=eligible&&(playing||filmKey===key&&film.currentTime>0);
-  film.hidden=!show;
-  if(!show||!onScreen||document.hidden||!playing){film.pause();return;}
-  if(filmKey!==key){
-    filmKey=key;film.src=new URL('./views/'+key+'.mp4',import.meta.url).href;
-    film.poster=poster.src;
-  }
-  film.style.transform='scale('+zoom+')';
-  const request=film.play();
-  request?.catch(err=>{if(err.name!=='AbortError'&&filmKey===key){film.hidden=true;}});
+function clipName() {
+  if (id === 'source') return '';
+  if (angle === 0) return viewKey();
+  return id === 'rear' ? 'rear-' + angle : '';
 }
-film.addEventListener('error',()=>{filmFailed=true;film.hidden=true;renderText();});
+function updateFilm() {
+  const key = clipName();
+  const attempt = ++playAttempt;
+  const eligible = fallback && key && !failedClips.has(key);
+  const sameFrame = key === filmKey && film.currentTime > 0;
+  film.hidden = !(eligible && (playing || sameFrame));
+  if (film.hidden || !onScreen || document.hidden || !playing) {
+    film.pause();
+    return;
+  }
+  if (filmKey !== key) {
+    filmKey = key;
+    film.poster = poster.src;
+    film.src = new URL('./views/' + key + '.mp4', import.meta.url).href;
+  }
+  film.style.transform = 'scale(' + zoom + ')';
+  film.play().catch(error => {
+    if (attempt !== playAttempt || error.name === 'AbortError') return;
+    if (error.name === 'NotAllowedError') {
+      // A browser can require a gesture even for muted video. Make the next tap a real play request.
+      playing = false;
+    } else {
+      failedClips.add(key);
+    }
+    film.hidden = true;
+    renderText();
+  });
+}
+film.addEventListener('error', () => {
+  if (film.error && filmKey) failedClips.add(filmKey);
+  film.hidden = true;
+  renderText();
+});
 function stageTransition(next){
   transitionLayer?.remove();transitionLayer=null;
   if(!fallback||!playing||motionPref.matches||!onScreen||document.hidden||!stage.animate||id===next)return;
@@ -112,7 +136,7 @@ function renderText(){
   find('.flow-art img').alt=c.artAlt;
   poster.alt=id?data[0]+'. '+data[1]:data[0]+'. '+route().map(key=>c[key][0]).join(' · ');
   find('[data-slot="hint"]').textContent=model?c.drag:c.still;
-  const motion=find('[data-tool="motion"]');motion.hidden=!model&&(!fallback||id==='source'||angle!==0||filmFailed);motion.innerHTML=icon(playing?'pause':'play');
+  const motion=find('[data-tool="motion"]');motion.hidden=id==='source'||(!model&&(!fallback||!clipName()||failedClips.has(clipName())));motion.innerHTML=icon(playing?'pause':'play');
 }
 function reveal(){
   if(!matchMedia('(max-width:720px)').matches)return;
@@ -150,7 +174,6 @@ find('[data-tool="rotateRight"]').addEventListener('click',()=>turn(1));
 find('[data-tool="zoomIn"]').addEventListener('click',()=>magnify(1.18));
 find('[data-tool="zoomOut"]').addEventListener('click',()=>magnify(1/1.18));
 find('[data-tool="motion"]').addEventListener('click',()=>{playing=!playing;model?.setMotion(playing);updateFilm();renderText();});
-motionPref.addEventListener('change',()=>{playing=!motionPref.matches;model?.setMotion(playing);updateFilm();renderText();});
 let touch;
 poster.addEventListener('dragstart',e=>e.preventDefault());
 poster.addEventListener('pointerdown',e=>{if(e.isPrimary&&e.button===0){touch={x:e.clientX,id:e.pointerId};poster.setPointerCapture(e.pointerId);}});
