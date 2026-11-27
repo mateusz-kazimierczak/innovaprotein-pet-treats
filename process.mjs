@@ -4,10 +4,18 @@ export function mount(view, choose) {
   const scene = new T.Scene();
   scene.background = new T.Color('#dce8cf');
   scene.fog = new T.Fog('#dce8cf',36,65);
-  const renderer = new T.WebGLRenderer({antialias:true, alpha:false, powerPreference:'low-power'});
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.65));
-  renderer.outputColorSpace = T.SRGBColorSpace;
+  let renderer;
+  try {
+    const surface=document.createElement('canvas');
+    const gl=surface.getContext('webgl2',{antialias:true,alpha:false,powerPreference:'low-power'});
+    if(gl)renderer=new T.WebGLRenderer({canvas:surface,context:gl,antialias:true,alpha:false});
+  } catch (_) { /* Some browsers disable WebGL. */ }
+  const software=!renderer;
+  if(software)renderer=makeSoftwareRenderer();
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, software?1.35:1.65));
+  if(!software)renderer.outputColorSpace=T.SRGBColorSpace;
   const canvas = renderer.domElement;
+  canvas.dataset.renderer=software?'software':'webgl';
   canvas.setAttribute('aria-hidden','true');
   view.prepend(canvas);
   const cam = new T.OrthographicCamera(-10,10,4,-4,.1,100);
@@ -128,4 +136,71 @@ export function mount(view, choose) {
   new ResizeObserver(paint).observe(view);
   update(0,'launch');
   return {update,home,zoomBy(n){zoom=T.MathUtils.clamp(zoom*n,1,1.65);paint();}};
+}
+
+// Orthographic, depth-sorted Canvas2D rendering of the same Three.js scene
+// for browsers without WebGL. No animation loop: draw only when the view changes.
+function makeSoftwareRenderer() {
+  const domElement=document.createElement('canvas');
+  const ctx=domElement.getContext('2d',{alpha:false});
+  if(!ctx)throw new Error('Canvas rendering unavailable');
+  let width=0,height=0,dpr=1;
+  const point=new T.Vector3(), a=new T.Vector3(), b=new T.Vector3(), c=new T.Vector3();
+  const normal=new T.Vector3(), edge=new T.Vector3(), matrix=new T.Matrix4(), normals=new T.Matrix3();
+  const light=new T.Vector3(-.47,.81,.36).normalize(), tinted=new T.Color();
+  return {
+    domElement,
+    setPixelRatio(n){dpr=n;},
+    setSize(w,h){width=w;height=h;domElement.width=Math.round(w*dpr);domElement.height=Math.round(h*dpr);},
+    render(scene,camera){
+      if(!width||!height)return;
+      camera.updateMatrixWorld();
+      scene.updateMatrixWorld(true);
+      const projection=new T.Matrix4().multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse);
+      const faces=[],shade=new Map();
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      ctx.fillStyle='#dce8cf';ctx.fillRect(0,0,width,height);
+      scene.traverseVisible(object=>{
+        const g=object.geometry, m=object.material;
+        if(!g||!m||m.visible===false)return;
+        const p=g.getAttribute('position');
+        if(!p)return;
+        const n=g.getIndex();
+        matrix.multiplyMatrices(projection,object.matrixWorld);
+        const points=new Float32Array(p.count*3);
+        for(let i=0;i<p.count;i++){
+          point.fromBufferAttribute(p,i).applyMatrix4(matrix);
+          points[i*3]=(point.x+1)*width*.5;
+          points[i*3+1]=(1-point.y)*height*.5;
+          points[i*3+2]=point.z;
+        }
+        if(object.isLineSegments){
+          ctx.strokeStyle='#c4d3bb';ctx.lineWidth=.7;ctx.beginPath();
+          for(let i=0;i+5<points.length;i+=6){ctx.moveTo(points[i],points[i+1]);ctx.lineTo(points[i+3],points[i+4]);}
+          ctx.stroke();return;
+        }
+        if(!object.isMesh||!m.color)return;
+        normals.getNormalMatrix(object.matrixWorld);
+        const count=n?n.count:p.count;
+        for(let i=0;i<count;i+=3){
+          const ai=n?n.getX(i):i, bi=n?n.getX(i+1):i+1, ci=n?n.getX(i+2):i+2;
+          const x=ai*3,y=bi*3,z=ci*3;
+          const area=(points[y]-points[x])*(points[z+1]-points[x+1])-(points[y+1]-points[x+1])*(points[z]-points[x]);
+          if(area>=-.01)continue;
+          a.fromBufferAttribute(p,ai);b.fromBufferAttribute(p,bi);c.fromBufferAttribute(p,ci);
+          normal.subVectors(b,a).cross(edge.subVectors(c,a)).applyNormalMatrix(normals);
+          const intensity=Math.round((.7+.37*Math.max(0,normal.dot(light)))*32)/32;
+          const key=m.id+':'+intensity;
+          let fill=shade.get(key);
+          if(!fill){fill=tinted.copy(m.color).multiplyScalar(intensity).getStyle();shade.set(key,fill);}
+          faces.push([ (points[x+2]+points[y+2]+points[z+2])/3,points[x],points[x+1],points[y],points[y+1],points[z],points[z+1],fill ]);
+        }
+      });
+      faces.sort((x,y)=>y[0]-x[0]);
+      ctx.lineJoin='round';ctx.lineWidth=.48;
+      for(const [,x,y,u,v,s,t,fill] of faces){
+        ctx.fillStyle=fill;ctx.strokeStyle=fill;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(u,v);ctx.lineTo(s,t);ctx.closePath();ctx.stroke();ctx.fill();
+      }
+    }
+  };
 }
