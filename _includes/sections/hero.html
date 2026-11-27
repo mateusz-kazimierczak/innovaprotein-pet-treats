@@ -1,0 +1,94 @@
+<section id="inicio" class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="pill">
+        <span class="dot"></span>
+        <span data-i18n="heroBadge">{{ copy.heroBadge | escape }}</span>
+      </span>
+      <h1>
+        <span data-i18n="heroTitle1">{{ copy.heroTitle1 | escape }}</span>
+        <br />
+        <em data-i18n="heroTitle2">{{ copy.heroTitle2 | escape }}</em>
+      </h1>
+      <p class="lead" data-i18n="heroLead">{{ copy.heroLead | escape }}</p>
+      <div class="hero-actions">
+        <a class="btn" href="#producto">
+          <span data-i18n="heroCta">{{ copy.heroCta | escape }}</span>
+          <svg class="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"></path></svg>
+        </a>
+        <a class="btn outline" href="#distribuidores" data-i18n="heroRetail">{{ copy.heroRetail | escape }}</a>
+      </div>
+      <p class="fine" data-i18n="heroFine">{{ copy.heroFine | escape }}</p>
+    </div>
+    <div class="hero-art">
+      <div class="art-label" data-i18n="artLabel">{{ copy.artLabel | escape }}</div>
+      <div class="hero-mark" data-i18n="artMark">{{ copy.artMark | escape }}</div>
+      <!-- Trace of the current 1600 × 900 pouch image, including the hanger hole. -->
+      <svg width="0" height="0" aria-hidden="true" focusable="false" class="pouch-cutout">
+        <clipPath id="current-pouch-cutout" clipPathUnits="objectBoundingBox">
+          <path
+            clip-rule="evenodd"
+            transform="scale(.000625 .0011111111)"
+            d="
+      M 540,55 Q 750,53 1051,55 C 1066,55 1080,67 1087,80
+      L 1087,124 Q 1077,125 1077,129 T 1087,134
+      L 1087,188 C 1085,341 1063,530 1056,640 Q 1049,727 1048,794
+      C 1047,808 1037,822 1030,823 C 992,825 940,838 884,838
+      L 728,838 C 671,838 620,826 587,822 C 574,820 566,823 557,814
+      Q 545,804 545,790 C 539,680 527,560 518,444 C 510,341 500,220 501,188
+      L 501,135 Q 512,133 512,129 T 501,124 L 502,83 C 506,71 521,55 540,55 Z
+      M 795,80 C 802,80 812,84 818,89 C 830,96 827,112 816,117
+      C 812,119 778,120 772,116 C 761,111 759,98 768,91 C 775,85 789,80 795,80 Z"
+          ></path>
+        </clipPath>
+      </svg>
+      <div class="hero-pack-frame">
+        <img
+          class="hero-pack-image"
+          src="./product-package.png"
+          width="1600"
+          height="900"
+          fetchpriority="high"
+          alt="{{ copy.pouchAlt | escape }}"
+          data-i18n-alt="pouchAlt"
+        />
+      </div>
+      <div class="art-caption" data-i18n="artCaption">{{ copy.artCaption | escape }}</div>
+    </div>
+  </div>
+</section>
+<div class="value-strip">
+  <div class="wrap value-grid">
+    <div class="value">
+      <div class="value-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 17c-3-4-1-9 8-12 1 7-1 12-8 12zM5 20l8-10M18 4c2 4 3 6 2 9"></path>
+        </svg>
+      </div>
+      <div>
+        <strong data-i18n="v1">{{ copy.v1 | escape }}</strong>
+        <span data-i18n="v1d">{{ copy.v1d | escape }}</span>
+      </div>
+    </div>
+    <div class="value">
+      <div class="value-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 3 20 6v7c0 5-8 8-8 8s-8-3-8-8V6zM8 12l3 3 5-6"></path></svg>
+      </div>
+      <div>
+        <strong data-i18n="v2">{{ copy.v2 | escape }}</strong>
+        <span data-i18n="v2d">{{ copy.v2d | escape }}</span>
+      </div>
+    </div>
+    <div class="value">
+      <div class="value-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M7 6a8 8 0 0 1 13 6m0 0-3-3m3 3 3-3M17 18A8 8 0 0 1 4 12m0 0 3 3m-3-3-3 3"></path>
+        </svg>
+      </div>
+      <div>
+        <strong data-i18n="v3">{{ copy.v3 | escape }}</strong>
+        <span data-i18n="v3d">{{ copy.v3d | escape }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<section class="section" id="producto">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-i18n="productEyebrow">{{ copy.productEyebrow | escape }}</div>
+        <h2 data-i18n="productHeading">{{ copy.productHeading | escape }}</h2>
+      </div>
+      <p data-i18n="productLead">{{ copy.productLead | escape }}</p>
+    </div>
+    <div class="product-grid">
+      <div class="product-visual">
+        <span class="product-tag" data-i18n="productTag">{{ copy.productTag | escape }}</span>
+        <img
+          src="./dried-larvae-bowl.webp"
+          width="1080"
+          height="1080"
+          loading="lazy"
+          decoding="async"
+          alt="{{ copy.bowlAlt | escape }}"
+          data-i18n-alt="bowlAlt"
+        />
+      </div>
+      <div class="product-info">
+        <div class="eyebrow" data-i18n="productLabel">{{ copy.productLabel | escape }}</div>
+        <h3 data-i18n="productName">{{ copy.productName | escape }}</h3>
+        <p class="desc" data-i18n="productDescription">{{ copy.productDescription | escape }}</p>
+        <div class="specs">
+          <div class="spec">
+            <span data-i18n="spec1">{{ copy.spec1 | escape }}</span>
+            <span data-i18n="spec1v">{{ copy.spec1v | escape }}</span>
+          </div>
+          <div class="spec">
+            <span data-i18n="spec2">{{ copy.spec2 | escape }}</span>
+            <span data-i18n="spec2v">{{ copy.spec2v | escape }}</span>
+          </div>
+          <div class="spec">
+            <span data-i18n="spec3">{{ copy.spec3 | escape }}</span>
+            <span data-i18n="spec3v">{{ copy.spec3v | escape }}</span>
+          </div>
+          <div class="spec">
+            <span data-i18n="spec4">{{ copy.spec4 | escape }}</span>
+            <span data-i18n="spec4v">{{ copy.spec4v | escape }}</span>
+          </div>
+        </div>
+        <a class="btn" href="#contacto" data-inquiry="availability" data-i18n="productCta">
+          {{ copy.productCta | escape }}
+        </a>
+        <p class="small" data-i18n="productFine">{{ copy.productFine | escape }}</p>
+      </div>
+    </div>
+  </div>
+</section>

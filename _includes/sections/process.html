@@ -1,0 +1,94 @@
+<section class="section flow-section" id="proceso">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" data-i18n="flowEyebrow">{{ copy.flowEyebrow | escape }}</div>
+        <h2 data-i18n="flowHeading">{{ copy.flowHeading | escape }}</h2>
+      </div>
+      <p data-i18n="flowLead">{{ copy.flowLead | escape }}</p>
+    </div>
+    <div class="flow-shell">
+      <div class="flow-top">
+        <strong class="flow-title">
+          <span data-icon="cube"></span>
+          <span data-text="walkthrough">{{ site.data.locales.es.process.walkthrough | escape }}</span>
+        </strong>
+        <div class="flow-modes" role="group" data-label="modeLabel">
+          <button type="button" data-mode="launch" data-text="launch" aria-pressed="true">{{ site.data.locales.es.process.launch | escape }}</button>
+          <button type="button" data-mode="future" data-text="future" aria-pressed="false">{{ site.data.locales.es.process.future | escape }}</button>
+        </div>
+      </div>
+      <div class="flow-body">
+        <div class="flow-view">
+          <div class="flow-stage">
+            <img
+              class="flow-poster"
+              width="800"
+              height="570"
+              src="./process/views/launch-0.webp"
+              loading="lazy"
+              draggable="false"
+              alt="Modelo de abastecimiento, control, envasado y distribución"
+            />
+            <video
+              class="flow-film"
+              muted=""
+              loop=""
+              playsinline=""
+              preload="none"
+              aria-hidden="true"
+              hidden=""
+            ></video>
+            <div class="flow-pins"></div>
+          </div>
+          <div class="flow-stamp">
+            <span data-icon="map"></span>
+            <span data-slot="stamp">Vista general</span>
+          </div>
+          <button type="button" class="flow-back" data-action="overview" hidden="">
+            <span data-icon="map"></span>
+            <span data-text="overview">{{ site.data.locales.es.process.overview | escape }}</span>
+          </button>
+          <div class="flow-tools">
+            <span class="flow-hint" data-slot="hint"></span>
+            <div class="flow-toolgroup" role="group" data-label="moves">
+              <button type="button" data-tool="rotateLeft" data-icon="left"></button>
+              <button type="button" data-tool="rotateRight" data-icon="right"></button>
+              <button type="button" data-tool="zoomOut" data-icon="minus"></button>
+              <button type="button" data-tool="zoomIn" data-icon="plus"></button>
+              <button type="button" data-tool="motion" hidden=""></button>
+            </div>
+          </div>
+        </div>
+        <div class="flow-panel" id="flow-detail">
+          <div aria-live="polite" aria-atomic="true">
+            <div class="flow-kicker" data-slot="kicker"></div>
+            <h3 data-slot="title"></h3>
+          </div>
+          <p class="flow-copy" data-slot="copy"></p>
+          <dl class="flow-facts">
+            <div>
+              <dt data-slot="from"></dt>
+              <dd data-slot="input"></dd>
+            </div>
+            <div>
+              <dt data-slot="to"></dt>
+              <dd data-slot="output"></dd>
+            </div>
+          </dl>
+          <figure class="flow-art" hidden="">
+            <img width="1600" height="900" loading="lazy" src="./product-package.png" alt="" />
+            <figcaption data-text="art"></figcaption>
+          </figure>
+          <div class="flow-navigation">
+            <button type="button" class="flow-prev" data-action="prev" data-text="prev" hidden=""></button>
+            <button type="button" class="flow-main-btn" data-action="next"></button>
+          </div>
+        </div>
+      </div>
+      <div class="flow-steps" role="group" data-label="detailNav"></div>
+      <div class="flow-fallback-copy" data-i18n="flowPlain">{{ copy.flowPlain | escape }}</div>
+    </div>
+    <p class="flow-note" data-i18n="flowNote">{{ copy.flowNote | escape }}</p>
+  </div>
+</section>

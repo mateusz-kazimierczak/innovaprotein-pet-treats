@@ -1,0 +1,27 @@
+[
+  {
+    "href": "#producto",
+    "key": "navProduct",
+    "footer": true
+  },
+  {
+    "href": "#proteina",
+    "key": "navWhy",
+    "footer": true
+  },
+  {
+    "href": "#proceso",
+    "key": "navFlow",
+    "footer": true
+  },
+  {
+    "href": "#historia",
+    "key": "navStory",
+    "footer": true
+  },
+  {
+    "href": "#distribuidores",
+    "key": "navRetail",
+    "footer": false
+  }
+]

@@ -1,0 +1,26 @@
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        {% include brand.html %}
+        <p data-i18n="footerAbout">{{ copy.footerAbout | escape }}</p>
+      </div>
+      <div>
+        <h3 data-i18n="footerExplore">{{ copy.footerExplore | escape }}</h3>
+        {% include navigation.html footer="yes" %}
+      </div>
+      <div>
+        <h3 data-i18n="footerContact">{{ copy.footerContact | escape }}</h3>
+        <a href="#distribuidores" data-i18n="navRetail">{{ copy.navRetail | escape }}</a>
+        <a href="#preguntas" data-i18n="faqEyebrow">{{ copy.faqEyebrow | escape }}</a>
+        <a href="#contacto" data-i18n="contactEyebrow">{{ copy.contactEyebrow | escape }}</a>
+        <span class="footer-location" data-i18n="footerLocation">
+          {{ copy.footerLocation | escape }}
+        </span>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">{{ site.time | date: "%Y" }}</span> InnovaProtein.</span><span class="foot-note" data-i18n="footerNote">{{ copy.footerNote | escape }}</span>
+    </div>
+  </div>
+</footer>

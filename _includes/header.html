@@ -1,0 +1,43 @@
+<a class="skip" href="#main" data-i18n="skip">{{ copy.skip | escape }}</a>
+<div class="topbar">
+  <span data-i18n="announcement">{{ copy.announcement | escape }}</span>
+  <span aria-hidden="true">·</span>
+  <strong data-i18n="announcement2">{{ copy.announcement2 | escape }}</strong>
+</div>
+<header>
+  <div class="wrap nav">
+    {% include brand.html %}
+    <nav class="links" aria-label="Principal">{% include navigation.html %}</nav>
+    <div class="nav-right">
+      <div class="lang" aria-label="Language / Idioma">
+        <button id="lang-es" type="button" aria-pressed="true">ES</button>
+        <button id="lang-en" type="button" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn desktop-only" href="#contacto" data-i18n="navCta">{{ copy.navCta | escape }}</a>
+      <button
+        class="menu"
+        id="menu"
+        type="button"
+        aria-controls="mobile-links"
+        aria-expanded="false"
+        aria-label="Menú / Menu"
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        >
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-links" id="mobile-links" aria-label="Principal móvil">
+    {% include navigation.html %}
+    <a class="btn" href="#contacto" data-i18n="navCta">{{ copy.navCta | escape }}</a>
+  </nav>
+</header>

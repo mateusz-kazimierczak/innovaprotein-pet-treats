@@ -1,0 +1,10 @@
+description: "InnovaProtein: complementary insect-protein treats for pets and hobby animals. Coming soon to Paraguay."
+# When a verified business address is available, this enables the mailto inquiry.
+contact_email: ""
+theme: null
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - tests

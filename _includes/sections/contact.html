@@ -1,0 +1,54 @@
+<section class="qa-contact" id="contacto">
+  <div class="wrap qa-grid">
+    {% include sections/faq.html %}
+    <div class="contact">
+      <div class="eyebrow" data-i18n="contactEyebrow">{{ copy.contactEyebrow | escape }}</div>
+      <h2 data-i18n="contactHeading">{{ copy.contactHeading | escape }}</h2>
+      <p class="contact-intro" data-i18n="contactIntro">{{ copy.contactIntro | escape }}</p>
+      <form id="inquiry-form" data-contact-email="{{ site.contact_email | escape }}">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name" data-i18n="formName">{{ copy.formName | escape }}</label>
+            <input id="name" name="name" required="" autocomplete="name" maxlength="100" />
+          </div>
+          <div class="field">
+            <label for="email" data-i18n="formEmail">{{ copy.formEmail | escape }}</label>
+            <input id="email" name="email" type="email" required="" autocomplete="email" maxlength="150" />
+          </div>
+          <div class="field full">
+            <label for="interest" data-i18n="formInterest">{{ copy.formInterest | escape }}</label>
+            <select id="interest" name="interest">
+              <option value="availability" data-i18n="optAvailability">
+                {{ copy.optAvailability | escape }}
+              </option>
+              <option value="retailer" data-i18n="optRetail">{{ copy.optRetail | escape }}</option>
+              <option value="other" data-i18n="optOther">{{ copy.optOther | escape }}</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="message" data-i18n="formMessage">{{ copy.formMessage | escape }}</label>
+            <textarea
+              id="message"
+              name="message"
+              maxlength="2000"
+              data-placeholder="msgPlaceholder"
+              placeholder="{{ copy.msgPlaceholder | escape }}"
+            ></textarea>
+          </div>
+        </div>
+        <p class="form-hint" id="form-hint" data-i18n="formHint">{{ copy.formHint | escape }}</p>
+        <button class="btn" type="submit">
+          <span id="form-submit-text" data-i18n="formButton">{{ copy.formButton | escape }}</span>
+          <svg class="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"></path></svg>
+        </button>
+        <div class="form-result" id="form-result" hidden="">
+          <strong data-i18n="resultTitle">{{ copy.resultTitle | escape }}</strong>
+          <p data-i18n="resultDesc">{{ copy.resultDesc | escape }}</p>
+          <textarea id="draft" readonly="" aria-label="Consulta preparada / Inquiry draft"></textarea>
+          <button type="button" class="btn outline" id="copy" data-i18n="copy">{{ copy.copy | escape }}</button>
+          <span id="copy-status" class="status" role="status"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

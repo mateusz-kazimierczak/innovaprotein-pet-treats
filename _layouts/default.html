@@ -1,0 +1,21 @@
+{% assign copy = site.data.locales.es.page -%}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#234b36">
+    <meta name="description" content="{{ site.description | escape }}">
+    <title>{{ copy.pageTitle | escape }}</title>
+    <link rel="icon" type="image/png" href="./assets/images/mark.png">
+    <link rel="stylesheet" href="./assets/css/site.css">
+    <link rel="stylesheet" href="./process/walkthrough.css">
+  </head>
+  <body>
+    {% include header.html %}
+    <main id="main">{{ content }}</main>
+    {% include footer.html %}
+    <script type="module" src="./assets/js/site.mjs"></script>
+    <script type="module" src="./process/walkthrough.mjs"></script>
+  </body>
+</html>

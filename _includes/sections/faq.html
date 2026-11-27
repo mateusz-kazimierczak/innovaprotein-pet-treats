@@ -1,0 +1,12 @@
+<div class="faq" id="preguntas">
+  <div class="eyebrow" data-i18n="faqEyebrow">{{ copy.faqEyebrow | escape }}</div>
+  <h2 data-i18n="faqHeading">{{ copy.faqHeading | escape }}</h2>
+  {% for number in (1..6) %}
+    {% assign question = 'faq' | append: number %}
+    {% assign answer = question | append: 'a' %}
+    <details>
+      <summary data-i18n="{{ question }}">{{ copy[question] | escape }}</summary>
+      <p data-i18n="{{ answer }}">{{ copy[answer] | escape }}</p>
+    </details>
+  {% endfor %}
+</div>

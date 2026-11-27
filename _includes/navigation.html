@@ -1,0 +1,5 @@
+{% for link in site.data.navigation %}
+  {% if link.footer or include.footer != 'yes' %}
+    <a href="{{ link.href }}" data-i18n="{{ link.key }}">{{ copy[link.key] | escape }}</a>
+  {% endif %}
+{% endfor %}

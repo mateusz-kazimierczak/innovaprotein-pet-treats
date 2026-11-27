@@ -163,7 +163,7 @@ function updateVisibility(){model?.setVisible(onScreen&&!document.hidden);update
 async function start(){
   if(started)return;started=true;
   try{
-    const {mount}=await import('../process.mjs');
+    const {mount}=await import('./scene.mjs');
     model=await mount(stage,{choose:select,project:placePins,lost(){
       model=null;fallback=true;root.dataset.live='false';posterView();renderText();
     }});
