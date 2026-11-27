@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#102d23" />
     <title>From Trash to Treasure · InnovaProtein Arcade</title>
     <link rel="icon" href="./art/mark.png" />
-    <script type="module" crossorigin src="./assets/index-CzmgJ0_m.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DRDDvivH.css">
+    <script type="module" crossorigin src="./assets/index-cdl39SR0.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Cs7vfPEt.css">
   </head>
   <body data-state="menu">
     <header class="mast">
@@ -57,7 +57,7 @@
             <p id="gate" hidden></p>
             <p class="practice-note">
               <i data-icon="keyboard"></i
-              ><span data-t="shiftNote">Desktop keyboard · Three stages · About 5 minutes</span>
+              ><span id="run-length">Desktop keyboard · Three stages · About 5 minutes</span>
             </p>
           </div>
           <div class="location"><i data-icon="pin"></i><span>Asunción, Paraguay</span></div>
@@ -152,6 +152,13 @@
             <option value="low" data-t="low">Low</option>
           </select></label
         >
+        <label for="quick-mode" class="quick-setting">
+          <span>
+            <span id="quick-label" data-t="quickMode">Quick mode</span>
+            <small id="quick-help" data-t="quickHelp">Play your next run in about 90 seconds with one bin, faster growth and shorter animations.</small>
+          </span>
+          <input id="quick-mode" type="checkbox" role="switch" aria-labelledby="quick-label" aria-describedby="quick-help" />
+        </label>
       </div>
       <div id="bindings"></div>
     </dialog>
