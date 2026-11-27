@@ -2,8 +2,14 @@ description: "InnovaProtein: complementary insect-protein treats for pets and ho
 # When a verified business address is available, this enables the mailto inquiry.
 contact_email: ""
 theme: null
+# Publish the Vite production build from _game/ at the game URL.
+collections:
+  game:
+    output: true
+    permalink: /game/:path
 exclude:
   - README.md
   - tools
   - vendor
   - tests
+  - game

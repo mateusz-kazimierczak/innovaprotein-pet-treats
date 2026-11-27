@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#102d23" />
+    <title>From Trash to Treasure · InnovaProtein Arcade</title>
+    <link rel="icon" href="./art/mark.png" />
+    <script type="module" crossorigin src="./assets/index-Dfm8Yk_4.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DKmj4XwE.css">
+  </head>
+  <body data-state="menu">
+    <header class="mast">
+      <div class="brand">
+        <img src="./art/mark.png" width="38" height="38" alt="" /><b>InnovaProtein</b
+        ><span class="brand-divider"></span><span class="arcade">Arcade</span>
+      </div>
+      <div class="tools">
+        <button id="sound" class="tool" aria-label="Sound" aria-pressed="true">
+          <i data-icon="sound"></i><span data-t="sound">Sound</span>
+        </button>
+        <button id="settings" class="tool" aria-label="Settings">
+          <i data-icon="settings"></i><span data-t="settings">Settings</span>
+        </button>
+        <button id="fullscreen" class="tool icon-only" aria-label="Full screen">
+          <i data-icon="fullscreen"></i>
+        </button>
+      </div>
+    </header>
+    <main>
+      <section id="lobby">
+        <div class="cover">
+          <div
+            class="cover-image"
+            role="img"
+            aria-label="A green collection truck outside a produce market in Asunción"
+          ></div>
+          <div class="cover-copy">
+            <div class="kicker">
+              <span class="lines" aria-hidden="true">///</span
+              ><span data-t="kicker">Circular economy arcade</span>
+            </div>
+            <h1><span data-t="title1">From trash</span><em data-t="title2">to treasure</em></h1>
+            <p class="intro" data-t="shiftIntro">
+              Drive through Asunción collecting food scraps, grow into a hungry larva, then dive
+              into the pond and race other fish for the harvest.
+            </p>
+            <div class="actions">
+              <button id="start" class="primary">
+                <i data-icon="play"></i><span data-t="driveShift">Drive Asunción</span></button
+              ><button id="practice" class="secondary">
+                <span data-t="start">Start practice</span></button
+              ><button id="how" class="secondary">
+                <i data-icon="keys"></i><span data-t="controls">Controls</span>
+              </button>
+            </div>
+            <p id="gate" hidden></p>
+            <p class="practice-note">
+              <i data-icon="keyboard"></i
+              ><span data-t="shiftNote">Desktop keyboard · Three stages · About 5 minutes</span>
+            </p>
+          </div>
+          <div class="location"><i data-icon="pin"></i><span>Asunción, Paraguay</span></div>
+        </div>
+        <div class="route" aria-label="Practice route">
+          <div class="route-stop">
+            <i class="route-icon green" data-icon="truck"></i>
+            <div><small data-t="drive">01 / Drive</small><b data-t="city">Waste Rescue</b></div>
+          </div>
+          <div class="route-stop tray-stop">
+            <i class="route-icon amber" data-icon="larva"></i>
+            <div>
+              <small data-t="grow">02 / Grow</small><b data-t="tray">The Hungry Larva</b>
+              <button id="start-larvae" class="stage-link">
+                <i data-icon="play"></i><span data-t="growStage">Play the tray</span>
+              </button>
+            </div>
+          </div>
+          <div class="route-stop">
+            <i class="route-icon blue" data-icon="fish"></i>
+            <div>
+              <small data-t="dive">03 / Dive</small><b data-t="pond">Feeding Frenzy</b>
+              <button id="start-pond" class="stage-link">
+                <i data-icon="play"></i><span data-t="swimStage">Play the pond</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="arena" hidden>
+        <canvas id="world" tabindex="-1" aria-label="3D game"></canvas>
+        <div id="hud" hidden>
+          <div class="hud-top">
+            <div class="objective">
+              <small id="stage-number"></small>
+              <h2 id="stage-title"></h2>
+              <p id="objective"></p>
+            </div>
+            <button id="pause" class="hud-button">
+              <i data-icon="pause"></i><span data-t="pause">Pause</span>
+            </button>
+          </div>
+          <div id="city-hud" hidden></div>
+          <div id="larvae-hud" hidden></div>
+          <div id="pond-hud" hidden></div>
+          <div class="hud-bottom">
+            <span id="instruction"></span><output id="timer">0:00</output>
+          </div>
+        </div>
+        <div id="scrim" hidden>
+          <div class="panel">
+            <span class="panel-icon" id="panel-icon"></span><small id="panel-label"></small>
+            <h2 id="panel-title"></h2>
+            <p id="panel-copy"></p>
+            <div id="pond-report" hidden></div>
+            <div class="panel-actions">
+              <button class="primary" id="continue"></button
+              ><button class="secondary" id="repeat-shift" data-t="againShift" hidden>
+                Drive again</button
+              ><button class="secondary" id="repeat-tray" data-t="playTrayAgain" hidden>
+                Play tray again</button
+              ><button class="secondary" id="repeat-pond" data-t="swimAgain" hidden>
+                Swim again</button
+              ><button class="secondary" id="quit" data-t="menu">Main menu</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <noscript>This desktop game needs JavaScript to start.</noscript>
+    </main>
+    <dialog id="dialog">
+      <div class="dialog-top">
+        <h2 id="dialog-title"></h2>
+        <button id="close" class="tool icon-only" aria-label="Close">
+          <i data-icon="close"></i>
+        </button>
+      </div>
+      <div id="settings-body">
+        <label
+          ><span data-t="lang">Language</span
+          ><select id="language">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="pt">Português</option>
+          </select></label
+        ><label
+          ><span data-t="quality">Graphics</span
+          ><select id="quality">
+            <option value="high" data-t="high">High</option>
+            <option value="low" data-t="low">Low</option>
+          </select></label
+        >
+      </div>
+      <div id="bindings"></div>
+    </dialog>
+  </body>
+</html>
