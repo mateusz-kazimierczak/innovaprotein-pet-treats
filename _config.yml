@@ -4,7 +4,6 @@ contact_email: ""
 theme: null
 exclude:
   - README.md
-  - Gemfile
-  - Gemfile.lock
+  - tools
   - vendor
   - tests

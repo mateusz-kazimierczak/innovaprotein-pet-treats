@@ -19,9 +19,10 @@ The homepage ships complete Spanish fallback markup. With scripting enabled, vis
 
 ## Develop and publish
 
-Use Ruby 3.3 and Bundler. Run the following in the repository root.
+GitHub Pages supplies Jekyll in production. The matching Jekyll version and local preview dependencies live in `tools/preview/`. With Ruby and Bundler installed, run these commands from the repository root.
 
 ```sh
+export BUNDLE_GEMFILE="$PWD/tools/preview/Gemfile"
 bundle install
 bundle exec jekyll serve
 ```
